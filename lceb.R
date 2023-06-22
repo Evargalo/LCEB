@@ -17,9 +17,11 @@ calculer_valeurs <- function(res1, formule1, ingredients1, res, formule, ingredi
   form <- calculer_formule(formule1, formule, "+")
   tab <- data.frame(res = r, formule = form, ingredients = ingr)
   # Multiplication
-  r <- res * res1
-  form <- calculer_formule(formule1, formule, "*")
-  tab %<>% add_row(res = r, formule = form, ingredients = ingr)
+  if(res != 1 && res1 != 1) {
+    r <- res * res1
+    form <- calculer_formule(formule1, formule, "*")
+    tab %<>% add_row(res = r, formule = form, ingredients = ingr)
+  }
   # Soustraction
   r <- ifelse(res > res1, res - res1, res1 - res)
   form <- ifelse(res > res1,
@@ -28,12 +30,12 @@ calculer_valeurs <- function(res1, formule1, ingredients1, res, formule, ingredi
   )
   tab %<>% add_row(res = r, formule = form, ingredients = ingr)
   # Division
-  if (res %% res1 == 0) {
+  if (res %% res1 == 0 && res1 != 1) {
     r <- res %/% res1
     form <- calculer_formule(formule, formule1, "/")
     tab %<>% add_row(res = r, formule = form, ingredients = ingr)
   }
-  if (res1 %% res == 0) {
+  if (res1 %% res == 0 && res != res1 && res != 1) {
     r <- res1 %/% res
     form <- calculer_formule(formule1, formule, "/")
     tab %<>% add_row(res = r, formule = form, ingredients = ingr)
@@ -88,7 +90,7 @@ resoudre_lceb <- function(nb_operandes, liste_operandes, cible, avec_elagage = T
     nouv_res <- pmap(.l = resultats %>% tail(1),
                      .f = rechercher_tous,
                      resultats=resultats) %>% as.data.frame()
-
+    
     sol <- nouv_res %>% filter(res == cible)
     
     if (avec_elagage) {
