@@ -155,14 +155,10 @@ resoudre_lceb <- function(nb_operandes, liste_operandes, cible, avec_elagage = T
 
 mon_res <- resoudre_lceb(
   nb_operandes = 6,
-  liste_operandes = c(1, 3, 100, 10, 75, 10),
+  liste_operandes = c(1, 5, 100, 8, 75, 10),
   cible = 587
 )
 
 mon_res$sol
-mon_res[[1]]
-mon_res[[2]]
-mon_res$res %>% filter(res == 7501)
-mon_res$res %>% filter(ingredients == 211122)
-mon_res$res %>% filter(ingredients == 211121)
-mon_res$res %>% filter(res == 100)
+
+
