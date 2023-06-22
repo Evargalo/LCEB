@@ -81,15 +81,18 @@ ajouter_ingredient <- function(resultats, i, nb_operandes, liste_operandes) {
 
 # Résolution --------------------------------------------------------------
 
-resoudre_lceb <- function(nb_operandes, liste_operandes, cible, avec_elagage = TRUE) {
+resoudre_lceb <- function(liste_operandes, cible=-1, nb_operandes=0, avec_elagage = TRUE) {
+  if(nb_operandes==0) {
+    nb_operandes <- length(liste_operandes)
+  }
   resultats <- df_vide
-  rep_unit <<- creer_rep_unit(nb_operandes)
   for (i in 1:nb_operandes) {
     print(i)
     resultats %<>% ajouter_ingredient(i, nb_operandes, liste_operandes)
     nouv_res <- pmap(.l = resultats %>% tail(1),
                      .f = rechercher_tous,
-                     resultats=resultats) %>% as.data.frame()
+                     resultats=resultats) %>% 
+      as.data.frame()
     
     sol <- nouv_res %>% filter(res == cible)
     
@@ -109,14 +112,11 @@ resoudre_lceb <- function(nb_operandes, liste_operandes, cible, avec_elagage = T
 
 # Tests -------------------------------------------------------------------
 
-
-
 mon_res <- resoudre_lceb(
   nb_operandes = 4,
   liste_operandes = c(1, 5, 100, 8),
   cible = 813
 )
-
 
 mon_res <- resoudre_lceb(
   nb_operandes = 5,
@@ -132,5 +132,6 @@ mon_res <- resoudre_lceb(
 
 
 mon_res$sol
+mon_res$res
 
 
