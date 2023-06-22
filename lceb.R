@@ -52,6 +52,7 @@ combiner <- function(res1, formule1, ingredients1, resultats) {
 }
 
 rechercher_tous <- function(res, formule, ingredients, resultats) {
+  print(paste0("rechercher_tous: ",res))
   sol <- df_vide
   nouveaux_resultats <- combiner(
     res1 = res,
@@ -60,8 +61,8 @@ rechercher_tous <- function(res, formule, ingredients, resultats) {
     resultats
   )
   sol %<>% bind_rows(nouveaux_resultats)
-  print(sol)
   while (nrow(nouveaux_resultats) > 0) {
+    print("deeper")
     nouveaux_resultats %<>% rename(res1 = res, formule1 = formule, ingredients1 = ingredients)
     nouveaux_resultats <- pmap_dfr(nouveaux_resultats, combiner, resultats)
     sol %<>% bind_rows(nouveaux_resultats)
@@ -120,6 +121,13 @@ mon_res <- resoudre_lceb(
   liste_operandes = c(1, 5, 100, 8, 75),
   cible = 577
 )
+
+mon_res <- resoudre_lceb(
+  nb_operandes = 6,
+  liste_operandes = c(5, 6, 6, 9, 9, 10 ),
+  cible = 568
+)
+
 
 mon_res$sol
 
