@@ -38,7 +38,6 @@ sommer_ingredients <- function(ingredients1, ingredients, rep_unit=0) {
 #' @param ingredients integer : ingrédients du membre de droite
 #'
 #' @return logical : peut-on combiner les deux membres ?
-#' @export
 #'
 #' @examples
 #' peut_combiner(1211, 2111)
@@ -55,7 +54,6 @@ peut_combiner(1211, 2111)
 #' @param i : integer : rang de l'opérande cherché
 #'
 #' @return logical
-#' @export
 #'
 #' @examples
 utilise_ingr <- function(ingredients,i) {
