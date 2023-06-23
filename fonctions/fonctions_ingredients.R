@@ -19,7 +19,7 @@ creer_rep_unit<-function(nb_operandes){
 #' @param ingredients integer : ingrédients du membre de droite
 #' @param rep_unit integer : optional
 #'
-#' @return integer : ingrédients 
+#' @return integer : ingrédients
 #' @export
 #'
 #' @examples
@@ -47,3 +47,10 @@ peut_combiner <- function(ingredients1, ingredients) {
 }
 
 peut_combiner(1211, 2111)
+
+
+utilise_ingr <- function(ingredients,i) {
+  str_sub(as.character(ingredients),i,i)=="2"
+}
+utilise_ingr(122111221,4)
+utilise_ingr(122111221,3)
