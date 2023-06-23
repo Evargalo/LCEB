@@ -49,6 +49,15 @@ peut_combiner <- function(ingredients1, ingredients) {
 peut_combiner(1211, 2111)
 
 
+#' vérifie si un operande est utilisé
+#'
+#' @param ingredients : integer : encodage des opérandes utilisés
+#' @param i : integer : rang de l'opérande cherché
+#'
+#' @return logical
+#' @export
+#'
+#' @examples
 utilise_ingr <- function(ingredients,i) {
   str_sub(as.character(ingredients),i,i)=="2"
 }

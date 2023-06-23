@@ -78,24 +78,27 @@ combiner <- function(res1, formule1, ingredients1, resultats) {
   pmap_dfr(res_trav, calculer_valeurs, res1, formule1, ingredients1)
 }
 
-#' Recherche en profondeur tous les nombre accessible à partir d'un nombre et des résultats antérieurs
+#' Recherche en profondeur tous les nombres accessibles à partir d'un opérande et des résultats antérieurs
 #'
 #' @param res integer : un nombre entier positif
 #' @param formule character : formule qui génère res
 #' @param ingredients integer : encodage des operandes utilisés pour générer res selon formule
 #' @param resultats data.frame : les res, formule, ingredients, précédemment générés
+#' @param i integer : rang de l'opérande
+#' @param liste_operandes vector of integers : les opérandes du problème
 #'
 #' @return data.frame : les res, formule, ingredients, générés en une ou plusieurs opérations à partir de res et de resultats
 #' @export
 #'
 #' @examples
-rechercher_tous <- function(res, formule, ingredients, resultats, i, dup=0) {
+rechercher_tous <- function(res, formule, ingredients, resultats, i, liste_operandes) {
   print(paste0("rechercher_tous: ", res))
   sol <- df_vide
   res_trav <- resultats
-  while(dup>0){
-    res_trav %<>% filter(utilise_ingr(ingredients,i-dup))
-    dup <- dup-1
+  j<-0
+  while(duplicated(liste_operandes)[i-j]) {
+    j <- j+1
+    res_trav %<>% filter(utilise_ingr(ingredients,i-j))
   }
   nouveaux_resultats <- combiner(
     res1 = res,
@@ -118,20 +121,18 @@ rechercher_tous <- function(res, formule, ingredients, resultats, i, dup=0) {
 #' @param resultats data.frame : les res, formule, ingredients, précédemment générés
 #' @param i integer : indice de l'opérande à ajouter
 #' @param liste_operandes vector of integers : les opérandes du problème
-#' @param nb_operandes integer : optionnel, recalculé si manquant
 #'
 #' @return data.frame : les res, formule, ingredients, précédemment générés plus le nouvel opérande
-#' @export
 #'
 #' @examples
-ajouter_ingredient <- function(resultats, i, liste_operandes, nb_operandes = 0) {
-  if (nb_operandes == 0) {
-    nb_operandes <- length(liste_operandes)
-  }
+#' ajouter_operande(df_vide, 1 , 1:3)
+ajouter_operande <- function(resultats, i, liste_operandes) {
+  nb_operandes <- length(liste_operandes)
   res <- liste_operandes[i]
   formule <- as.character(res)
   ingredients <- 10^(nb_operandes - i) + creer_rep_unit(nb_operandes)
   resultats %<>% add_row(res, formule, ingredients)
+  return(resultats)
 }
 
 # Résolution --------------------------------------------------------------
@@ -173,16 +174,12 @@ resoudre_lceb <- function(liste_operandes, cible = 0, nb_operandes = 0, avec_ela
   resultats <- df_vide
   for (i in 1:nb_operandes) {
     print(i)
-    resultats %<>% ajouter_ingredient(i, liste_operandes)
-    j<-0
-    while(duplicated(liste_operandes)[i-j]) {
-      j <- j+1
-    }
+    resultats %<>% ajouter_operande (i, liste_operandes)
     nouv_res <- pmap(
       .l = resultats %>% tail(1),
       .f = rechercher_tous,
       resultats = resultats,
-      dup=j,
+      liste_operandes=liste_operandes,
       i=i
     ) %>%
       as.data.frame()
@@ -208,7 +205,7 @@ resoudre_lceb <- function(liste_operandes, cible = 0, nb_operandes = 0, avec_ela
 
 
 # Tests -------------------------------------------------------------------
-#
+
 # mon_res <- resoudre_lceb(
 #   nb_operandes = 4,
 #   liste_operandes = c(1, 5, 100, 8),
