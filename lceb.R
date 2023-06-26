@@ -211,28 +211,46 @@ resoudre_lceb <- function(liste_operandes, cible = 0, nb_operandes = 0, avec_ela
 #   liste_operandes = c(1, 5, 100, 8),
 #   cible = 813
 # )
-#
+# 
 # mon_res <- resoudre_lceb(
 #   nb_operandes = 5,
 #   liste_operandes = c(1, 5, 100, 8, 75),
 #   cible = 577
 # )
-#
+# 
 # mon_res <- resoudre_lceb(
 #   liste_operandes = c(8, 8, 8, 8, 8)
 # )
-#
+# 
+# mon_res <- resoudre_lceb(
+#   cible = 576,
+#   liste_operandes = c(8, 8, 8, 8, 8)
+# )
+# 
 # mon_res <- resoudre_lceb(
 #   nb_operandes = 6,
 #   liste_operandes = c(5, 6, 6, 9, 9, 10),
 #   cible = 568
 # )
-#
+# 
+# mon_res <- resoudre_lceb(
+#   nb_operandes = 6,
+#   liste_operandes = c(1, 5, 100, 8, 75, 25),
+#   cible = 602
+# )
+# 
+# mon_res <- resoudre_lceb(
+#   nb_operandes = 6,
+#   liste_operandes = c(1, 5, 100, 8, 75, 5),
+#   cible = 572
+# )
+
+# mon_res <- resoudre_lceb(
+#   nb_operandes = 6,
+#   liste_operandes = c(3, 5, 7, 100, 25, 75),
+#   cible = 946
+# )
 #
 # mon_res$sol
 # mon_res$res
-#
-# mon_res$res -> res
-# res %>% filter (res==31)
-# res %>% filter (ingredients==122111)
-# res %>% filter (ingredients==222111)
+
