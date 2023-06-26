@@ -3,4 +3,5 @@
 .RData
 .Ruserdata
 linter.R
+.lintr
 brouillon.R
